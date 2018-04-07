@@ -32,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
           requestPermissions();
 
           getSongList();
-          alphabetizeSong(songList);
+          
+          // avoid NullPointerExceptions for phones with no songs
+          if(songList != null)
+            alphabetizeSong(songList);
     }
 
     /** Checks to see what permissions the app has access to
