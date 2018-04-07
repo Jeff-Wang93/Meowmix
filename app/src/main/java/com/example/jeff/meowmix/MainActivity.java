@@ -32,20 +32,26 @@ public class MainActivity extends AppCompatActivity {
           requestPermissions();
 
           getSongList();
-          //alphabetizeMedia(songList);
+          alphabetizeSong(songList);
     }
 
+    /** Checks to see what permissions the app has access to
+     * 
+     */
     protected void checkPermissions() {
-                                          // See which permissions the user hasn't accepted yet. Should add reasoning to each
-                                          // permission as well
-                                          for(String permission : REQUIRED_PERMISSIONS) {
-                                          final int result = ContextCompat.checkSelfPermission(this, permission);
+        // See which permissions the user hasn't accepted yet. Should add reasoning to each
+        // permission as well
+        for(String permission : REQUIRED_PERMISSIONS) {
+            final int result = ContextCompat.checkSelfPermission(this, permission);
 
-                                          if(result != PackageManager.PERMISSION_GRANTED)
-                                          missingPermissions.add(permission);
-                                          }
-                                          }
+            if(result != PackageManager.PERMISSION_GRANTED)
+                missingPermissions.add(permission);
+            }
+    }
 
+    /** If the app doesn't have certain permissions, ask for them
+     *  @TODO: 4/6/2018 provide reasoning for each permission 
+     */
     protected void requestPermissions() {
         // We're missing some permissions. Request them
         if(!missingPermissions.isEmpty()) {
@@ -57,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** Query the device's external storage for any sound files labeled as music and store them 
+     * into an arrayList.
+     * 
+     */
     public void getSongList() {
         ContentResolver musicResolver = getContentResolver();
 
@@ -69,11 +79,14 @@ public class MainActivity extends AppCompatActivity {
                           MediaStore.Audio.Media.IS_MUSIC,
                           MediaStore.Audio.Media.TITLE};
 
-        Cursor musicCursor = musicResolver.query(musicUri,proj, null, null, null);
+        // make a query to the device and grab the necessary information
+        Cursor musicCursor = musicResolver.query(musicUri, proj, null, null, 
+                null);
 
         // question for later: what's the point of proj above if we have to type all the
         // information again below?
 
+        // a little checking to make sure the app doesn't take any illegal actions
         if(musicCursor != null && musicCursor.moveToFirst()) {
             int idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int albumColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
@@ -81,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             int isMusicColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC);
             int titleColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
 
-            // add our songs to the arrayList
+            // iterate through each song in the cursor and grab the necessary information
             do {
                 long songId = musicCursor.getLong(idColumn);
                 String songAlbum = musicCursor.getString(albumColumn);
@@ -96,13 +109,20 @@ public class MainActivity extends AppCompatActivity {
             }
             while (musicCursor.moveToNext());
         }
+
+        // ensure the cursor will close
+        try { }
+        finally { musicCursor.close(); }
     }
 
-    public void alphabetizeMedia(ArrayList<Media> mediaList) {
+    /** Alphabetizes arrayLists containing Song objects
+     * @param mediaList an arrayList containing Song objects to alphabetize
+     */
+    public void alphabetizeSong(ArrayList<Song> mediaList) {
         // assume we alphabetize based on media file title
-        Collections.sort(mediaList, new Comparator<Media>() {
+        Collections.sort(mediaList, new Comparator<Song>() {
             @Override
-            public int compare(Media a, Media b) {
+            public int compare(Song a, Song b) {
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
