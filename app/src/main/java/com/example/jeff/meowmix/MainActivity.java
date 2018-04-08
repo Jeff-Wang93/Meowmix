@@ -4,19 +4,30 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaActionSound;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Song> songList;
+    private ArrayList<Song> songList = new ArrayList<Song>();
+    private ArrayList<Album> albumList = new ArrayList<Album>();
+    private ArrayList<Bitmap> albumArtList = new ArrayList<Bitmap>();
+    private GridView albumView;
 
     // Check for required permissions dynamically because newer APIs can deny access anytime
     private final static String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -31,11 +42,23 @@ public class MainActivity extends AppCompatActivity {
           checkPermissions();
           requestPermissions();
 
-          getSongList();
-          
-          // avoid NullPointerExceptions for phones with no songs
-          if(songList != null)
-            alphabetizeSong(songList);
+          // dont try to do anything if the app doesn't have the necessary permissions
+          if(missingPermissions.isEmpty()) {
+              getSongList();
+              getAlbumArtList();
+
+              // avoid NullPointerExceptions for phones with no songs
+              if (songList != null) {
+                  alphabetizeSong(songList);
+                  albumAdapter albumAdt = new albumAdapter(this, albumArtList);
+
+                  //String str = String.valueOf(albumAdt);
+                  String str = String.valueOf(albumArtList.get(0));
+                  Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
+
+                  albumView.setAdapter(albumAdt);
+              }
+          }
     }
 
     /** Checks to see what permissions the app has access to
@@ -53,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** If the app doesn't have certain permissions, ask for them
-     *  @TODO: 4/6/2018 provide reasoning for each permission 
+     *  @TODO: 4/6/2018 provide reasoning for each permission
+     *  @TODO: close app if not given necessary permissions
      */
     protected void requestPermissions() {
         // We're missing some permissions. Request them
@@ -67,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** Query the device's external storage for any sound files labeled as music and store them 
-     * into an arrayList.
+     * into an arrayList. Dealing with individual songs here
      * 
      */
     public void getSongList() {
@@ -76,18 +100,7 @@ public class MainActivity extends AppCompatActivity {
         // specify we want music store on the external SD card
         Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 
-        String[] proj = { MediaStore.Audio.Media._ID,
-                          MediaStore.Audio.Media.ALBUM,
-                          MediaStore.Audio.Media.ARTIST,
-                          MediaStore.Audio.Media.IS_MUSIC,
-                          MediaStore.Audio.Media.TITLE};
-
-        // make a query to the device and grab the necessary information
-        Cursor musicCursor = musicResolver.query(musicUri, proj, null, null, 
-                null);
-
-        // question for later: what's the point of proj above if we have to type all the
-        // information again below?
+        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
 
         // a little checking to make sure the app doesn't take any illegal actions
         if(musicCursor != null && musicCursor.moveToFirst()) {
@@ -102,20 +115,48 @@ public class MainActivity extends AppCompatActivity {
                 long songId = musicCursor.getLong(idColumn);
                 String songAlbum = musicCursor.getString(albumColumn);
                 String songArtist = musicCursor.getString(artistColumn);
-                int songIsMusic = musicCursor.getInt(isMusicColumn);
                 String songTitle = musicCursor.getString(titleColumn);
+                String songIsMusic = musicCursor.getString(isMusicColumn);
 
                 // dont add any sound files that aren't considered music
-                if(songIsMusic == 1) {
-                    songList.add(new Song(songAlbum, songArtist, songId, songTitle));
-                }
+                songList.add(new Song(songAlbum, songArtist, songId, songTitle));
             }
-            while (musicCursor.moveToNext());
+            while(musicCursor.moveToNext());
         }
 
         // ensure the cursor will close
         try { }
         finally { musicCursor.close(); }
+    }
+
+    public void getAlbumArtList() {
+        ContentResolver musicResolver = getContentResolver();
+
+        Uri albumUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        Cursor musicCursor = musicResolver.query(albumUri, null, null, null, null);
+
+        if(musicCursor != null && musicCursor.moveToFirst()) {
+            int albumColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM);
+            int artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST);
+            int albumArtColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+            int countColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
+
+            // iterate through each song in the cursor and grab the necessary information
+            do {
+                String albumTitle = musicCursor.getString(albumColumn);
+                String albumArtist = musicCursor.getString(artistColumn);
+                String albumArt = musicCursor.getString(albumArtColumn);
+                String albumCount = musicCursor.getString(countColumn);
+
+                // convert the album image paths to bitmaps
+                Bitmap ImageBm = BitmapFactory.decodeFile(albumArt);
+
+                albumList.add(new Album(albumArt, albumArtist, albumCount, albumTitle));
+                albumArtList.add(ImageBm);
+            }
+            while(musicCursor.moveToNext());
+        }
     }
 
     /** Alphabetizes arrayLists containing Song objects

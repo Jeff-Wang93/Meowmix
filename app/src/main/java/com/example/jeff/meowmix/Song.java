@@ -10,39 +10,24 @@ public class Song {
     private String title;
 
 
-    /** Constructor for a Song object
-     * @param songAlbum The song's album name
-     * @param songArtist The song's artist/artists name
-     * @param songId The song's Id
-     * @param songTitle The song's title
-     */
-    public Song(String songAlbum, String songArtist, long songId, String
-            songTitle) {
+    public Song() {}
+
+    public Song(String songAlbum, String songArtist, long songId, String songTitle) {
         album = songAlbum;
         artist = songArtist;
         id = songId;
         title = songTitle;
     }
 
-    /** Get the song's album name
-     * @return A string containing the song's album name
-     */
+    // setter methods
+    public void setAlbum(String songAlbum) { album = songAlbum; }
+    public void setArtist(String songArtist) { artist = songArtist; }
+    public void setId(long songId) { id = songId; }
+    public void setTitle(String songTitle) { title = songTitle; }
+
+    // getter methods
     public String getAlbum() { return album; }
-
-    /** Get the song's artist name
-     * @return A string containing the song's artist's name
-     */
     public String getArtist() { return artist; }
-
-
-    /** Get the song's Id
-     * @return A long representing the song's Id
-     */
     public long getId() { return id; }
-
-
-    /** Get the song's title
-     * @return A string containing the song's title
-     */
     public String getTitle() { return title; }
 }
