@@ -1,7 +1,6 @@
 package com.example.jeff.meowmix;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,27 +38,28 @@ public class albumAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View gridView;
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
-                .LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            gridView = new View(mContext);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
+                .LAYOUT_INFLATER_SERVICE);
 
             gridView = inflater.inflate(R.layout.album_grid, null);
-            TextView textArtist = (TextView) gridView.findViewById(R.id.album_artist);
-            TextView textTitle = (TextView) gridView.findViewById(R.id.album_title);
-            TextView textCount = (TextView) gridView.findViewById(R.id.album_song_count);
-            ImageView imageAlbum = (ImageView) gridView.findViewById(R.id.album_image);
 
-            textArtist.setText(albumList.get(position).getArtist());
-            textTitle.setText(albumList.get(position).getTitle());
-            textCount.setText(albumList.get(position).getCount() + " songs");
-
-            imageAlbum.setImageBitmap(albumList.get(position).getArt());
         }
         else {
             gridView = (View) convertView;
         }
+
+        TextView textArtist = (TextView) gridView.findViewById(R.id.album_artist);
+        TextView textTitle = (TextView) gridView.findViewById(R.id.album_title);
+        TextView textCount = (TextView) gridView.findViewById(R.id.album_song_count);
+        ImageView imageAlbum = (ImageView) gridView.findViewById(R.id.album_image);
+
+        textArtist.setText(albumList.get(position).getArtist());
+        textTitle.setText(albumList.get(position).getTitle());
+        textCount.setText(albumList.get(position).getCount() + " songs");
+
+        imageAlbum.setImageBitmap(albumList.get(position).getArt());
 
         return gridView;
     }
