@@ -6,18 +6,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaActionSound;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,9 +21,9 @@ import java.util.Comparator;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Song> songList = new ArrayList<Song>();
     private ArrayList<Album> albumList = new ArrayList<Album>();
-    private ArrayList<Bitmap> albumArtList = new ArrayList<Bitmap>();
     private GridView albumView;
     private GridView androidGridView;
+
 
     // Check for required permissions dynamically because newer APIs can deny access anytime
     private final static String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -51,14 +46,10 @@ public class MainActivity extends AppCompatActivity {
               // avoid NullPointerExceptions for phones with no songs
               if (songList != null) {
                   alphabetizeSong(songList);
-                  albumAdapter albumAdt = new albumAdapter(this, albumArtList);
+                  albumAdapter albumAdt = new albumAdapter(this, albumList);
 
-                  //String str = String.valueOf(albumAdt);
-                  //String str = String.valueOf(albumArtList.get(0));
-                  //Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
-
-                  albumView = (GridView)findViewById(R.id.album_art);
-                  albumView.setAdapter(new albumAdapter(this, albumArtList));
+                  albumView = (GridView)findViewById(R.id.show_album);
+                  albumView.setAdapter(albumAdt);
               }
           }
     }
@@ -78,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** If the app doesn't have certain permissions, ask for them
-     *  @TODO: 4/6/2018 provide reasoning for each permission
-     *  @TODO: close app if not given necessary permissions
+     *
      */
     protected void requestPermissions() {
         // We're missing some permissions. Request them
@@ -154,10 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 // convert the album image paths to bitmaps
                 Bitmap ImageBm = BitmapFactory.decodeFile(albumArt);
 
-                albumList.add(new Album(albumArt, albumArtist, albumCount, albumTitle));
-
-                if(!albumArtList.contains(ImageBm))
-                    albumArtList.add(ImageBm);
+                albumList.add(new Album(ImageBm, albumArtist, albumCount, albumTitle));
             }
             while(musicCursor.moveToNext());
         }

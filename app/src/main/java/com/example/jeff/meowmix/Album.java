@@ -1,19 +1,21 @@
 package com.example.jeff.meowmix;
 
+import android.graphics.Bitmap;
+
 public class Album {
-    private String art;
+    private Bitmap art;
     private String artist;
     private String count;
     private String title;
 
-    public Album(String albumArt, String albumArtist, String albumCount, String albumTitle) {
+    public Album(Bitmap albumArt, String albumArtist, String albumCount, String albumTitle) {
         art = albumArt;
         artist = albumArtist;
         count = albumCount;
         title = albumTitle;
     }
 
-    public String getArt() {
+    public Bitmap getArt() {
         return art;
     }
 

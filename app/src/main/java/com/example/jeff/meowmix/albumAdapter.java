@@ -2,33 +2,28 @@ package com.example.jeff.meowmix;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class albumAdapter extends BaseAdapter {
     private Context mContext;
-    private Bitmap[] artList;
+    private ArrayList<Album> albumList;
     private LayoutInflater albumInf;
 
-
-    public albumAdapter(Context c, ArrayList<Bitmap> albumList) {
+    public albumAdapter(Context c, ArrayList<Album> albumList) {
         mContext = c;
-
-        // grab all the images and put them into an array
-        if(!albumList.isEmpty())
-            artList = albumList.toArray(new Bitmap[albumList.size()]);
+        this.albumList = albumList;
     }
 
     @Override
     public int getCount() {
-        return artList.length;
+        return albumList.size();
     }
 
     @Override
@@ -43,18 +38,29 @@ public class albumAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
+        View gridView;
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
+                .LAYOUT_INFLATER_SERVICE);
 
-        if(convertView == null) {
-            imageView = new ImageView(mContext);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        if (convertView == null) {
+            gridView = new View(mContext);
 
+            gridView = inflater.inflate(R.layout.album_grid, null);
+            TextView textArtist = (TextView) gridView.findViewById(R.id.album_artist);
+            TextView textTitle = (TextView) gridView.findViewById(R.id.album_title);
+            TextView textCount = (TextView) gridView.findViewById(R.id.album_song_count);
+            ImageView imageAlbum = (ImageView) gridView.findViewById(R.id.album_image);
+
+            textArtist.setText(albumList.get(position).getArtist());
+            textTitle.setText(albumList.get(position).getTitle());
+            textCount.setText(albumList.get(position).getCount() + " songs");
+
+            imageAlbum.setImageBitmap(albumList.get(position).getArt());
         }
         else {
-            imageView = (ImageView) convertView;
+            gridView = (View) convertView;
         }
 
-        imageView.setImageBitmap(artList[position]);
-        return imageView;
+        return gridView;
     }
 }

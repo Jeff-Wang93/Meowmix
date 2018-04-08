@@ -1,50 +1,59 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="5dp" >
 
-    <ImageView
+    <com.example.jeff.meowmix.SquareImage
         android:id="@+id/album_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="10dp" >
-    </ImageView>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" >
+    </com.example.jeff.meowmix.SquareImage>
 
     <TextView
         android:id="@+id/album_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLength="12"
-        android:maxLines="1"
-        android:ellipsize="end"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="40dp"
+        android:layout_gravity="bottom"
+        android:textSize="7pt"
         android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="15sp" >
+        android:background="#55000000"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:ellipsize="end" >
     </TextView>
 
     <TextView
         android:id="@+id/album_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLength="15"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textColor="#FFFFFF"
-        android:textSize="11sp" >
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="17dp"
+        android:layout_gravity="bottom"
+        android:textSize="5pt"
+        android:textColor="#FFFFFF" >
+
     </TextView>
 
     <TextView
         android:id="@+id/album_song_count"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:maxLength="15"
-        android:textColor="#FFFFFF"
-        android:textSize="10sp" >
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="2dp"
+        android:layout_gravity="bottom"
+        android:textSize="5pt"
+        android:textColor="#FFFFFF" >
     </TextView>
 
-</LinearLayout>
+</FrameLayout>
