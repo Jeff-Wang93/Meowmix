@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tool_bar_imp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/ToolBar"
+    android:elevation="4dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/album_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Albums"
+            style="@style/ToolBarButton" />
+
+        <Button
+            android:id="@+id/artist_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Artists"
+            style="@style/ToolBarButton" />
+
+        <Button
+            android:id="@+id/folders_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Folders"
+            style="@style/ToolBarButton" />
+
+        <Button
+            android:id="@+id/song_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Songs"
+            style="@style/ToolBarButton" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.Toolbar>
+

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Meowmix</string>
+    <string name="Albums">Albums</string>
+    <string name="Album">Album</string>
+    <string name="Songs">Songs</string>
+    <string name="Artists">Artists</string>
+    <string name="Folders">Folders</string>
 </resources>

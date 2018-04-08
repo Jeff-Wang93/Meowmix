@@ -12,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -22,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Song> songList = new ArrayList<Song>();
     private ArrayList<Album> albumList = new ArrayList<Album>();
     private GridView albumView;
-    private GridView androidGridView;
-
 
     // Check for required permissions dynamically because newer APIs can deny access anytime
     private final static String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
           setContentView(R.layout.activity_main);
+
+          // set the toolbar as the app bar for activity
+          Toolbar tabToolBar = (Toolbar) findViewById(R.id.main_tool_bar);
+          setSupportActionBar(tabToolBar);
 
           checkPermissions();
           requestPermissions();
@@ -53,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
               }
           }
     }
+
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.album_tab, menu);
+//        return true;
+//    }
+
 
     /** Checks to see what permissions the app has access to
      * 
@@ -121,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
         finally { musicCursor.close(); }
     }
 
+    /** Get the album information from the device. Very similar to getSongList. May figure out
+     * way to have one function rather than 2
+     *
+     */
     public void getAlbumArtList() {
         ContentResolver musicResolver = getContentResolver();
 

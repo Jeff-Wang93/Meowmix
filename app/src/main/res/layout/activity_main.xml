@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/album_gridView"
+    android:id="@+id/main_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/main_tool_bar"
+        layout="@layout/toolbar" />
+
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/show_album"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#232323"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#262626"
         android:columnWidth="10dp"
         android:gravity="center"
         android:stretchMode="columnWidth"

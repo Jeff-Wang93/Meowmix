@@ -2,9 +2,12 @@ package com.example.jeff.meowmix;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-public class SquareImage extends ImageView {
+/** A ImageView subclass used to custom fit images. Used in album_grid.xml. Can see final result
+ * in the Albums tab.
+ *
+ */
+public class SquareImage extends android.support.v7.widget.AppCompatImageView {
     public SquareImage(Context context) {
         super(context);
     }
