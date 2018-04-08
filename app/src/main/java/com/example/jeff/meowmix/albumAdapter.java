@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,7 +19,7 @@ public class albumAdapter extends BaseAdapter {
 
 
     public albumAdapter(Context c, ArrayList<Bitmap> albumList) {
-        albumInf = LayoutInflater.from(c);
+        mContext = c;
 
         // grab all the images and put them into an array
         if(!albumList.isEmpty())
@@ -49,8 +47,8 @@ public class albumAdapter extends BaseAdapter {
 
         if(convertView == null) {
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(85,85));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
         }
         else {
             imageView = (ImageView) convertView;

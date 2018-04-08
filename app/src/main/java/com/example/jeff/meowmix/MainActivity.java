@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Album> albumList = new ArrayList<Album>();
     private ArrayList<Bitmap> albumArtList = new ArrayList<Bitmap>();
     private GridView albumView;
+    private GridView androidGridView;
 
     // Check for required permissions dynamically because newer APIs can deny access anytime
     private final static String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -53,10 +54,11 @@ public class MainActivity extends AppCompatActivity {
                   albumAdapter albumAdt = new albumAdapter(this, albumArtList);
 
                   //String str = String.valueOf(albumAdt);
-                  String str = String.valueOf(albumArtList.get(0));
-                  Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
+                  //String str = String.valueOf(albumArtList.get(0));
+                  //Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
 
-                  albumView.setAdapter(albumAdt);
+                  albumView = (GridView)findViewById(R.id.album_art);
+                  albumView.setAdapter(new albumAdapter(this, albumArtList));
               }
           }
     }
@@ -153,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap ImageBm = BitmapFactory.decodeFile(albumArt);
 
                 albumList.add(new Album(albumArt, albumArtist, albumCount, albumTitle));
-                albumArtList.add(ImageBm);
+
+                if(!albumArtList.contains(ImageBm))
+                    albumArtList.add(ImageBm);
             }
             while(musicCursor.moveToNext());
         }
