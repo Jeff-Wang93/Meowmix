@@ -12,14 +12,15 @@
         android:scaleType="centerCrop" >
     </com.example.jeff.meowmix.SquareImage>
 
+    <!--use 55000000 for transparent background-->
+    <!--android:background="#55000000"-->
     <TextView
         android:id="@+id/album_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="40dp"
+        android:paddingBottom="32dp"
         android:layout_gravity="bottom"
         android:textSize="7pt"
         android:textColor="#FFFFFF"
@@ -33,10 +34,9 @@
         android:id="@+id/album_artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="17dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="16dp"
         android:layout_gravity="bottom"
         android:textSize="5pt"
         android:textColor="#FFFFFF" >
@@ -47,10 +47,9 @@
         android:id="@+id/album_song_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="3dp"
         android:layout_gravity="bottom"
         android:textSize="5pt"
         android:textColor="#FFFFFF" >

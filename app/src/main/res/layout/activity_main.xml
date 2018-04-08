@@ -14,6 +14,7 @@
         android:columnWidth="10dp"
         android:gravity="center"
         android:stretchMode="columnWidth"
+        android:scrollbars="vertical"
         android:numColumns="2" />
 
 </LinearLayout>
