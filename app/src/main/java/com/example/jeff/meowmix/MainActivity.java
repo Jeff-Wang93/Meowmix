@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
           checkPermissions();
           requestPermissions();
 
-          // dont try to do anything if the app doesn't have the necessary permissions
+          // don't try to do anything if the app doesn't have the necessary permissions
           if(missingPermissions.isEmpty()) {
               getSongList();
               getAlbumArtList();
@@ -50,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
               // avoid NullPointerExceptions for phones with no songs
               if (songList != null) {
                   alphabetizeSong(songList);
+                  alphabetizeAlbum(albumList);
+
                   albumAdapter albumAdt = new albumAdapter(this, albumList);
 
                   albumView = (GridView)findViewById(R.id.show_album);
@@ -58,14 +59,8 @@ public class MainActivity extends AppCompatActivity {
           }
     }
 
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.album_tab, menu);
-//        return true;
-//    }
-
-
     /** Checks to see what permissions the app has access to
-     * 
+     *
      */
     protected void checkPermissions() {
         // See which permissions the user hasn't accepted yet. Should add reasoning to each
@@ -109,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             int idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int albumColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
             int artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
-            int isMusicColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC);
             int titleColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
 
             // iterate through each song in the cursor and grab the necessary information
@@ -118,9 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 String songAlbum = musicCursor.getString(albumColumn);
                 String songArtist = musicCursor.getString(artistColumn);
                 String songTitle = musicCursor.getString(titleColumn);
-                String songIsMusic = musicCursor.getString(isMusicColumn);
 
-                // dont add any sound files that aren't considered music
                 songList.add(new Song(songAlbum, songArtist, songId, songTitle));
             }
             while(musicCursor.moveToNext());
@@ -155,13 +147,22 @@ public class MainActivity extends AppCompatActivity {
                 String albumArt = musicCursor.getString(albumArtColumn);
                 String albumCount = musicCursor.getString(countColumn);
 
-                // convert the album image paths to bitmaps
-                Bitmap ImageBm = BitmapFactory.decodeFile(albumArt);
+                Bitmap imageBm;
+                imageBm = null;
 
-                albumList.add(new Album(ImageBm, albumArtist, albumCount, albumTitle));
+                // don't allow bitmap to touch anything null
+                if(albumArt != null)
+                    imageBm = BitmapFactory.decodeFile(albumArt);
+
+                //Drawable imageBm = Drawable.createFromPath(albumArt);
+                albumList.add(new Album(imageBm, albumArtist, albumCount, albumTitle));
             }
             while(musicCursor.moveToNext());
         }
+
+        // ensure the cursor will close
+        try { }
+        finally { musicCursor.close(); }
     }
 
     /** Alphabetizes arrayLists containing Song objects
@@ -172,6 +173,15 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(mediaList, new Comparator<Song>() {
             @Override
             public int compare(Song a, Song b) {
+                return a.getTitle().compareTo(b.getTitle());
+            }
+        });
+    }
+
+    public void alphabetizeAlbum(ArrayList<Album> mediaList) {
+        // assume we alphabetize based on media file title
+        Collections.sort(mediaList, new Comparator<Album>() {
+            public int compare(Album a, Album b) {
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
