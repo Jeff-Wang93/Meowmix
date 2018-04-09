@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                 if(albumArt != null)
                     imageBm = BitmapFactory.decodeFile(albumArt);
 
-                //Drawable imageBm = Drawable.createFromPath(albumArt);
                 albumList.add(new Album(imageBm, albumArtist, albumCount, albumTitle));
             }
             while(musicCursor.moveToNext());
