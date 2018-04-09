@@ -13,7 +13,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,11 +27,16 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Song> songList = new ArrayList<Song>();
     private ArrayList<Album> albumList = new ArrayList<Album>();
     private GridView albumView;
+    private ListView songView;
 
     // Check for required permissions dynamically because newer APIs can deny access anytime
     private final static String[] REQUIRED_PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE};
     private final static int REQUEST_CODE_PERMISSION = 1;
     ArrayList<String> missingPermissions = new ArrayList<>();
+
+    // button variables
+    Button albumButton;
+    Button songButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
           checkPermissions();
           requestPermissions();
 
+          albumButton = (Button) findViewById(R.id.album_button);
+          songButton = (Button) findViewById(R.id.song_button);
+
+
           // don't try to do anything if the app doesn't have the necessary permissions
           if(missingPermissions.isEmpty()) {
               getSongList();
@@ -51,10 +64,21 @@ public class MainActivity extends AppCompatActivity {
                   alphabetizeSong(songList);
                   alphabetizeAlbum(albumList);
 
-                  albumAdapter albumAdt = new albumAdapter(this, albumList);
-
+                  AlbumAdapter albumAdt = new AlbumAdapter(this, albumList);
                   albumView = (GridView)findViewById(R.id.show_album);
                   albumView.setAdapter(albumAdt);
+
+                  final SongAdapter songAdt = new SongAdapter(this, songList);
+                  songView = (ListView)findViewById(R.id.show_song);
+
+                  songButton.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                          songView.setAdapter(songAdt);
+                      }
+                  });
+
+
               }
           }
     }
@@ -106,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             int artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int titleColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
 
-            // iterate through each song in the cursor and grab the necessary information
+            // iterate through each song_tab in the cursor and grab the necessary information
             do {
                 long songId = musicCursor.getLong(idColumn);
                 String songAlbum = musicCursor.getString(albumColumn);
@@ -140,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             int albumArtColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
             int countColumn = musicCursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
 
-            // iterate through each song in the cursor and grab the necessary information
+            // iterate through each song_tab in the cursor and grab the necessary information
             do {
                 String albumTitle = musicCursor.getString(albumColumn);
                 String albumArtist = musicCursor.getString(artistColumn);
@@ -185,4 +209,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

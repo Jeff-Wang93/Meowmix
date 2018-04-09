@@ -1,15 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
 
 
     <!--Toolbar styles-->
     <style name="ToolBar">
+        <item name="android:background">#262626</item>
+    </style>
+
+    <!--Style for the background of the different views-->
+    <style name="ViewBackground">
         <item name="android:background">#262626</item>
     </style>
 
@@ -24,6 +24,15 @@
         <!--make the buttons take all available space-->
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
+    </style>
+
+    <!--Style for most text-->
+    <style name="InfoText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#262626</item>
+        <item name="android:textSize">7pt</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
 </resources>

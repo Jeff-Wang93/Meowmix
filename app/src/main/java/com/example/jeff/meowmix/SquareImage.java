@@ -3,7 +3,7 @@ package com.example.jeff.meowmix;
 import android.content.Context;
 import android.util.AttributeSet;
 
-/** A ImageView subclass used to custom fit images. Used in album_grid.xml. Can see final result
+/** A ImageView subclass used to custom fit images. Used in album_tabxml. Can see final result
  * in the Albums tab.
  *
  */

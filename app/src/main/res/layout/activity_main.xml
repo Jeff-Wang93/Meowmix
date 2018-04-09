@@ -12,14 +12,20 @@
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/show_album"
+        style="@style/ViewBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#262626"
         android:columnWidth="10dp"
         android:gravity="center"
         android:stretchMode="columnWidth"
         android:scrollbars="vertical"
         android:numColumns="2" />
+
+    <ListView
+        android:id="@+id/show_song"
+        style="@style/ViewBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

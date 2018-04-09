@@ -5,16 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class albumAdapter extends BaseAdapter {
+public class AlbumAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Album> albumList;
 
-    public albumAdapter(Context c, ArrayList<Album> albumList) {
+    public AlbumAdapter(Context c, ArrayList<Album> albumList) {
         mContext = c;
         this.albumList = albumList;
     }
@@ -42,7 +43,7 @@ public class albumAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
 
-            gridView = inflater.inflate(R.layout.album_grid, null);
+            gridView = inflater.inflate(R.layout.album_tab, null);
         }
         else {
             gridView = (View) convertView;

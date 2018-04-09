@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/song_tab_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/song_title"
+        style="@style/InfoText"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/song_artist"
+        style="@style/InfoText"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/song_album"
+        style="@style/InfoText"
+        android:textSize="12sp" />
+
+</LinearLayout>

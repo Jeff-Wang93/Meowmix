@@ -15,18 +15,14 @@ public class Album {
         title = albumTitle;
     }
 
+    // getter methods
     public Bitmap getArt() {
         return art;
     }
-
-    public String getArtist() {
-        return artist;
-    }
-
+    public String getArtist() { return artist; }
     public String getCount() {
         return count;
     }
-
     public String getTitle() {
         return title;
     }
