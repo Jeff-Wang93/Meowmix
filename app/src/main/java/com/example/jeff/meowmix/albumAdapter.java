@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class albumAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Album> albumList;
-    private LayoutInflater albumInf;
 
     public albumAdapter(Context c, ArrayList<Album> albumList) {
         mContext = c;
@@ -44,7 +43,6 @@ public class albumAdapter extends BaseAdapter {
                 .LAYOUT_INFLATER_SERVICE);
 
             gridView = inflater.inflate(R.layout.album_grid, null);
-
         }
         else {
             gridView = (View) convertView;
@@ -59,7 +57,14 @@ public class albumAdapter extends BaseAdapter {
         textTitle.setText(albumList.get(position).getTitle());
         textCount.setText(albumList.get(position).getCount() + " songs");
 
-        imageAlbum.setImageBitmap(albumList.get(position).getArt());
+        if(albumList.get(position).getArt() != null) {
+            imageAlbum.setImageBitmap(albumList.get(position).getArt());
+        }
+
+        // if there's no album art, stick in a stock image as a placeholder
+        else {
+            imageAlbum.setImageResource(R.drawable.no_album);
+        }
 
         return gridView;
     }
